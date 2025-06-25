@@ -1,7 +1,14 @@
-import Image from "next/image";
+import Carousel from "./components/Carousel";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <h1 className="font-blod text-blue-300"><center>Home page</center></h1>
+    <>
+      <Carousel>
+        <h1 className="font-bold text-blue-300 text-center">Home page</h1>
+      </Carousel>
+      
+      <Footer />
+    </>
   );
 }
