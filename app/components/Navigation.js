@@ -1,7 +1,14 @@
 'use client';
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Navigation() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -18,9 +25,8 @@ export default function Navigation() {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
             <li className="nav-item">
-              <Link href="/" className="nav-link active" aria-current="page">หน้าหลัก</Link>
+              <Link href="/" className="nav-link active">หน้าหลัก</Link>
             </li>
             <li className="nav-item">
               <Link href="/about" className="nav-link">เกี่ยวกับ</Link>
@@ -31,28 +37,22 @@ export default function Navigation() {
             <li className="nav-item">
               <Link href="/contact" className="nav-link">ติดต่อ</Link>
             </li>
-            
-            <li className="nav-item dropdown">
-              <Link className="nav-link dropdown-toggle" href="#" role="button"
-                 data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </Link>
-              <ul className="dropdown-menu">
-                <li><Link href="#" className="dropdown-item">Action</Link></li>
-                <li><Link href="#" className="dropdown-item">Another action</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><Link href="#" className="dropdown-item">Something else here</Link></li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
           </ul>
 
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-light" type="submit">Search</button>
-          </form>
+          {/* ส่วน Login/Logout ด้านขวา */}
+          <div className="d-flex align-items-center">
+            {!isLoggedIn ? (
+              <>
+                <Link href="/login" className="btn btn-outline-light me-2">เข้าสู่ระบบ</Link>
+                
+              </>
+            ) : (
+              <>
+                <span className="text-white me-3">สวัสดี, ผู้ใช้</span>
+                <button onClick={handleLogout} className="btn btn-danger">ออกจากระบบ</button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>
