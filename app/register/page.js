@@ -166,7 +166,7 @@ export default function RegisterPage() {
               onChange={handleChange}
             />
             <label className="form-check-label">
-              ฉันยอมรับเงื่อนไขและข้อตกลง
+              ฉันยอมรับเงื่อนไข และ ข้อตกลง
             </label>
           </div>
 
