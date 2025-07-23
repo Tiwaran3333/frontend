@@ -18,7 +18,7 @@ export default function About() {
       <div className="row align-items-center">
         <div className="col-md-6 mb-4">
           <Image
-            src="/images/Card/L.jpg"
+            src="/images/Card/"
             alt="About our shop"
             width={600}
             height={400}
@@ -27,9 +27,9 @@ export default function About() {
         </div>
 
         <div className="col-md-6">
-          <h2 className="text-xl font-semibold mb-3">เราคือใคร?</h2>
+          <h2 className="text-xl font-semibold mb-3">web</h2>
           <p className="mb-3">
-            ร้านของเราเริ่มต้นจากความตั้งใจที่จะมอบสินค้า...
+            web
           </p>
         </div>
       </div>
