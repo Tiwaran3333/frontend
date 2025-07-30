@@ -37,6 +37,9 @@ export default function Navigation() {
             <li className="nav-item">
               <Link href="/contact" className="nav-link">ติดต่อ</Link>
             </li>
+            <li className="nav-item">
+              <Link href="/sdmin/users" className="nav-link">Admin</Link>
+            </li>
           </ul>
 
           {/* ส่วน Login/Logout ด้านขวา */}

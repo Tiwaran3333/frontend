@@ -64,6 +64,33 @@ export default function Card() {
       title: 'Card Three',
       text: 'This is the third card description.',
     },
+    {
+      image: '/images/Card/Mu.jpeg',
+      title: 'Card One',
+      text: 'This is the first card description.',
+    },
+    //-----------------------------------------------------------------------//
+    {
+      image: '/images/Card/Bones.jpeg',
+      title: 'Card Two',
+      text: 'This is the second card description.',
+    },
+    {
+      image: '/images/Card/Roland.jpg',
+      title: 'Card Three',
+      text: 'This is the third card description.',
+    },
+    {
+      image: '/images/Card/Mu.jpeg',
+      title: 'Card One',
+      text: 'This is the first card description.',
+    },
+    {
+      image: '/images/Card/Bones.jpeg',
+      title: 'Card Two',
+      text: 'This is the second card description.',
+    },
+    //-----------------------------------------------------------------------//
   ];
 
   return (
@@ -76,13 +103,14 @@ export default function Card() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
             viewport={{ once: true }}
-            className="col-12 col-md-4 mb-4"
+            className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" //card 4
           >
             <div className="card rounded-4 shadow h-100">
               <img
                 src={card.image}
                 className="card-img-top rounded-top-4"
                 alt={card.title}
+                style={{ height: '200px', objectFit: 'cover' }}
               />
               <div className="card-body">
                 <h5 className="card-title">{card.title}</h5>
