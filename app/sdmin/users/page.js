@@ -26,6 +26,22 @@ export default function Page() {
   const interval  = setInterval(getUsers, 1000);
   return () => clearInterval(interval);
 }, []);
+    const handleDelete = async (id) => {
+  //console.log('user id :', id);
+  try {
+    const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept : 'application/json',
+      },
+    });
+    const result = await res.json();
+    console.log(result);
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}; //end handleDelete
 
   return (
     <>
@@ -63,8 +79,8 @@ export default function Page() {
               <td>{item.address}</td>
               <td>{item.sex}</td>
               <td>{item.birthday}</td>
-              <td><Link href="" className="btn btn-warning">Edit</Link></td>
-              <td><button className="btn btn-pill btn-danger" type="button"><i className="fa fa-trash"></i>Del</button></td>
+              <td><Link href={`/sdmin/users/edit/${item.id}`} className="btn btn-warning">Edit</Link></td>
+              <td><button className="btn btn-pill btn-danger" type="button" onClick={() => handleDelete(item.id)}><i class="fa fa-trash"></i>Del</button></td>
             </tr>
           ))}
         </tbody>
