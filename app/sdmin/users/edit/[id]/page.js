@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+import { useParams, useRouter } from 'next/navigation'
 
-export default function EditUser() {
+export default function Page() {
   const router = useRouter()
-  const { id } = useParams() || {}
-
+  const { id } = useParams()
   const [formData, setFormData] = useState({
     prefix: '',
     firstname: '',
@@ -21,21 +20,31 @@ export default function EditUser() {
   })
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const getUser = async () => {
       try {
         const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`)
         const data = await res.json()
 
-        setFormData({
-          ...data,
-          birthday: data.birthday ?? '', // ป้องกัน null
-        })
+        const user = Array.isArray(data) ? data[0] : data
+        if (user) {
+          setFormData({
+            prefix: user.prefix || '',
+            firstname: user.firstname || '',
+            fullname: user.fullname || '',
+            lastname: user.lastname || '',
+            username: user.username || '',
+            password: user.password || '',
+            sex: user.sex || '',
+            birthday: user.birthday || '',
+            address: user.address || '',
+          })
+        }
       } catch (err) {
-        console.error('Fetch error:', err)
+        console.error('Error fetching data:', err)
       }
     }
 
-    if (id) fetchUser()
+    if (id) getUser()
   }, [id])
 
   const handleChange = (e) => {
@@ -46,40 +55,38 @@ export default function EditUser() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault()
-
     try {
-      const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`, {
-        method: 'PATCH', // ลองเปลี่ยนเป็น PATCH หรือ POST ถ้า PUT ไม่ทำงาน
+      const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users`, {
+        method: 'PUT', // หรือ PATCH ถ้า backend รองรับ
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ id, ...formData }),
       })
 
       const result = await res.json()
-
       if (res.ok) {
         Swal.fire({
           icon: 'success',
-          title: 'แก้ไขข้อมูลสำเร็จ',
-          confirmButtonText: 'ตกลง',
-        }).then(() => {
-          router.push('/admin/users')
-        })
+          title: 'แก้ไขข้อมูลเรียบร้อยแล้ว',
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => router.push('/admin/users'))
       } else {
         Swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
-          text: result.message || 'ไม่สามารถแก้ไขข้อมูลได้',
+          text: result.message || 'ไม่สามารถบันทึกได้',
         })
       }
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้',
+        title: 'ข้อผิดพลาดเครือข่าย',
+        text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้',
       })
     }
   }
@@ -87,42 +94,118 @@ export default function EditUser() {
   return (
     <div className="container py-5">
       <div className="card shadow p-4 mx-auto" style={{ maxWidth: 600 }}>
-        <h3 className="mb-4 text-center">แก้ไขข้อมูลผู้ใช้</h3>
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <h3 className="mb-4 text-center">แก้ไขข้อมูลสมาชิก</h3>
+        <form onSubmit={handleUpdateSubmit} className="space-y-3">
 
-          {[
-            ['prefix', 'คำนำหน้า', 'นาย/นาง/นางสาว'],
-            ['firstname', 'ชื่อ', 'ชื่อ'],
-            ['fullname', 'ชื่อเต็ม', 'ชื่อเต็ม'],
-            ['lastname', 'นามสกุล', 'นามสกุล'],
-            ['address', 'ที่อยู่', 'ที่อยู่'],
-            ['sex', 'เพศ', 'ชาย/หญิง'],
-            ['username', 'ชื่อผู้ใช้', 'ชื่อผู้ใช้'],
-            ['password', 'รหัสผ่าน', 'รหัสผ่าน']
-          ].map(([key, label, placeholder]) => (
-            <div className="mb-3" key={key}>
-              <label className="form-label">{label}</label>
-              <input
-                type={key === 'password' ? 'password' : 'text'}
-                name={key}
-                className="form-control"
-                value={formData[key]}
-                onChange={handleChange}
-                required
-                placeholder={placeholder}
-              />
-            </div>
-          ))}
+          
+          {/* ชื่อ */}
+          <div className="mb-3">
+            <label className="form-label">ชื่อ</label>
+            <input
+              type="text"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="ชื่อ"
+            />
+          </div>
 
+          {/* ชื่อเต็ม */}
+          <div className="mb-3">
+            <label className="form-label">ชื่อเต็ม</label>
+            <input
+              type="text"
+              name="fullname"
+              value={formData.fullname}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="ชื่อเต็ม"
+            />
+          </div>
+
+          {/* นามสกุล */}
+          <div className="mb-3">
+            <label className="form-label">นามสกุล</label>
+            <input
+              type="text"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="นามสกุล"
+            />
+          </div>
+
+          {/* ที่อยู่ */}
+          <div className="mb-3">
+            <label className="form-label">ที่อยู่</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="ที่อยู่"
+            />
+          </div>
+
+          {/* เพศ */}
+          <div className="mb-3">
+            <label className="form-label">เพศ</label>
+            <input
+              type="text"
+              name="sex"
+              value={formData.sex}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="เพศ"
+            />
+          </div>
+
+          {/* วันเดือนปีเกิด */}
           <div className="mb-3">
             <label className="form-label">วันเดือนปีเกิด</label>
             <input
               type="date"
               name="birthday"
-              className="form-control"
               value={formData.birthday}
               onChange={handleChange}
+              className="form-control"
               required
+            />
+          </div>
+
+          {/* ชื่อผู้ใช้ */}
+          <div className="mb-3">
+            <label className="form-label">ชื่อผู้ใช้</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="ชื่อผู้ใช้"
+            />
+          </div>
+
+          {/* รหัสผ่าน */}
+          <div className="mb-3">
+            <label className="form-label">รหัสผ่าน</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="form-control"
+              required
+              placeholder="รหัสผ่าน"
             />
           </div>
 
