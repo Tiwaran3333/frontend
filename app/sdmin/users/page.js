@@ -75,7 +75,7 @@ export default function Page() {
             <th className='col-md-4'>Firstname</th>
             <th className='col-md-4'>Fullname</th>
             <th className='col-md-4'>Lastname</th>
-            <th className='col-md-4'>Password</th>
+            
             <th className='col-md-4'>Address</th>
             <th className='col-md-4'>Sex</th>
             <th className='col-md-4'>Birthday</th>
@@ -90,7 +90,7 @@ export default function Page() {
               <td>{item.firstname}</td>
               <td>{item.fullname}</td>
               <td>{item.lastname}</td>
-              <td>{item.password}</td>
+              
               <td>{item.address}</td>
               <td>{item.sex}</td>
               <td>{item.birthday}</td>
