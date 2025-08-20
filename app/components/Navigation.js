@@ -12,7 +12,7 @@ export default function Navigation() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link href="/" className="navbar-brand">frontend</Link>
+        <Link href="/" className="navbar-brand">Shop</Link>
 
         <button className="navbar-toggler" type="button"
           data-bs-toggle="collapse"

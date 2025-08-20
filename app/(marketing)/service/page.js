@@ -19,46 +19,53 @@ export default function Card() {
 
   const cards = [
     {
-      image: '/images/Card/dingding.png',
-      title: 'The Funeral of the Dead Butterflies',
+      image: '/images/Card/ka.jpeg',
+      title: 'กระทะ',
       text: 'This is the first card description.',
-      category: 'abnormalities',
+      category: 'สิ่งของ',
+      price: 250,
     },
     {
-      image: '/images/Card/TheQueenOfHatred.png',
-      title: 'The Queen of Hatred',
+      image: '/images/Card/cpu.jpg',
+      title: 'CPU',
       text: 'This is the second card description.',
-      category: 'abnormalities',
+      category: 'Cpu',
+      price: 7500,
     },
     {
-      image: '/images/Card/Amiya.jpg',
-      title: 'Amiya',
+      image: '/images/Card/ch.jpeg',
+      title: 'Chair',
       text: 'This is the third card description.',
-      category: 'Amiya',
+      category: 'สิ่งของ',
+      price: 1200,
     },
     {
-      image: '/images/Card/Rebellion.png',
-      title: 'Rebellion',
+      image: '/images/Card/key.jpeg',
+      title: 'Keyboard',
       text: 'This is the second card description.',
-      category: 'Item',
+      category: 'อุปกรณ์',
+      price: 890,
     },
     {
-      image: '/images/Card/Bones.jpeg',
-      title: 'Claim Their Bones',
+      image: '/images/Card/com.jpeg',
+      title: 'Monitor',
       text: 'This is the second card description.',
-      category: 'Skill',
+      category: 'อุปกรณ์',
+      price: 5600,
     },
     {
-      image: '/images/Card/Roland.jpg',
-      title: 'Sakura Stand Guy',
+      image: '/images/Card/mou.jpg',
+      title: 'Mouse',
       text: 'This is the first card description.',
-      category: 'Fixer',
+      category: 'อุปกรณ์',
+      price: 450,
     },
     {
       image: '/images/Card/Mu.jpeg',
       title: 'Muhaha',
       text: 'This is the first card description.',
       category: 'Meme',
+      price: 99,
     },
   ];
 
@@ -134,6 +141,8 @@ export default function Card() {
               <div className="card-body">
                 <h5 className="card-title">{card.title}</h5>
                 <p className="card-text">{card.text}</p>
+                {/* ✅ แสดงราคา */}
+                <p className="fw-bold text-white">฿ {card.price.toLocaleString()}</p>
                 <a href="#" className="btn btn-primary rounded-pill px-4">Go</a>
               </div>
             </div>
@@ -143,3 +152,4 @@ export default function Card() {
     </div>
   );
 }
+

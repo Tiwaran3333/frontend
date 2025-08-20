@@ -1,12 +1,22 @@
+
 'use client';
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true); // <-- เพิ่ม state loading
+  const router = useRouter();
+
 
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+     if (!token) {
+       router.push('/signin');
+       return;
+     }
 
     async function getUsers() {
       try {
@@ -17,8 +27,10 @@ export default function Page() {
         }
         const data = await res.json();
         setItems(data);
+        setLoading(false); // <-- โหลดเสร็จแล้ว
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false);
       }
     }
  
@@ -42,6 +54,9 @@ export default function Page() {
     console.error('Error fetching data:', error);
   }
 }; //end handleDelete
+  if (loading) {
+    return <div className='text-center'><h1>Loading...</h1></div>; // หรือ return null เพื่อไม่ให้ render อะไร
+  }
 
   return (
     <>
@@ -80,7 +95,7 @@ export default function Page() {
               <td>{item.sex}</td>
               <td>{item.birthday}</td>
               <td><Link href={`/sdmin/users/edit/${item.id}`} className="btn btn-warning">Edit</Link></td>
-              <td><button className="btn btn-pill btn-danger" type="button" onClick={() => handleDelete(item.id)}><i class="fa fa-trash"></i>Del</button></td>
+              <td><button className="btn btn-pill btn-danger" type="button" onClick={() => handleDelete(item.id)}><i className="fa fa-trash"></i>Del</button></td>
             </tr>
           ))}
         </tbody>
