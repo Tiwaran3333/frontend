@@ -24,7 +24,8 @@ export default function Page() {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
-      router.push('/admin/users');
+      //router.push('/admin/users');
+      window.location.href ='sdmin/users';
     } else {
       router.push('/signin');
     }

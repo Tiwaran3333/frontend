@@ -74,7 +74,7 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="space-y-3">
           
           <div className="mb-3">
-            <label className="form-label">ชื่อ</label>
+            <label className="form-label">คำนำหน้า</label>
             <input
               type="text"
               name="firstname"
@@ -82,7 +82,7 @@ export default function Register() {
               value={formData.firstname}
               onChange={handleChange}
               required
-              placeholder="ชื่อ"
+              placeholder="คำนำหน้า"
             />
           </div>
 
