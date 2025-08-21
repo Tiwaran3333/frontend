@@ -86,7 +86,7 @@ export default function Page() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('https://backend-nextjs-virid.vercel.app', {
+    const res = await fetch('https://backend-nextjs-virid.vercel.app/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
