@@ -1,0 +1,10 @@
+/* ทำให้ Hover เป็นสีขาว */
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #ffffff !important;
+}
+
+/* ทำให้ Active Link เป็นสีขาว + ตัวหนา */
+.navbar-dark .navbar-nav .nav-link.active {
+  color: #ffffff !important;
+  font-weight: bold;
+}

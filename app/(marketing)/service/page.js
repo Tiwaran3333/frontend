@@ -19,6 +19,34 @@ export default function Card() {
 
   const cards = [
     {
+      image: '/images/Card/ADD.jpeg',
+      title: 'A Dance with Dragon',
+      text: 'This is the first card description.',
+      category: 'หนังสือ',
+      price: 360,
+    },
+    {
+      image: '/images/Card/hp.png',
+      title: 'Headphone',
+      text: 'This is the second card description.',
+      category: 'อุปกรณ์',
+      price: 4290,
+    },
+    {
+      image: '/images/Card/IT.jpg',
+      title: 'IT',
+      text: 'This is the third card description.',
+      category: 'หนังสือ',
+      price: 360,
+    },
+    {
+      image: '/images/Card/B.png',
+      title: 'Runfalcon 5',
+      text: 'This is the first card description.',
+      category: 'สิ่งของ',
+      price: 1320,
+    },
+    {
       image: '/images/Card/ka.jpeg',
       title: 'กระทะ',
       text: 'This is the first card description.',

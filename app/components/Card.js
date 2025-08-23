@@ -50,47 +50,25 @@ import { motion } from 'framer-motion';
 export default function Card() {
   const cards = [
     {
-      image: '/images/Card/Mu.jpeg',
-      title: 'Card One',
+      image: '/images/Card/ADD.jpeg',
+      title: 'A Dance with Dragon',
       text: 'This is the first card description.',
     },
     {
-      image: '/images/Card/Bones.jpeg',
-      title: 'Card Two',
+      image: '/images/Card/hp.png',
+      title: 'Headphone',
       text: 'This is the second card description.',
     },
     {
-      image: '/images/Card/Roland.jpg',
-      title: 'Card Three',
+      image: '/images/Card/IT.jpg',
+      title: 'IT',
       text: 'This is the third card description.',
     },
     {
-      image: '/images/Card/Mu.jpeg',
-      title: 'Card One',
+      image: '/images/Card/B.png',
+      title: 'Runfalcon 5',
       text: 'This is the first card description.',
     },
-    //-----------------------------------------------------------------------//
-    {
-      image: '/images/Card/Bones.jpeg',
-      title: 'Card Two',
-      text: 'This is the second card description.',
-    },
-    {
-      image: '/images/Card/Roland.jpg',
-      title: 'Card Three',
-      text: 'This is the third card description.',
-    },
-    {
-      image: '/images/Card/Mu.jpeg',
-      title: 'Card One',
-      text: 'This is the first card description.',
-    },
-    {
-      image: '/images/Card/Bones.jpeg',
-      title: 'Card Two',
-      text: 'This is the second card description.',
-    },
-    //-----------------------------------------------------------------------//
   ];
 
   return (
