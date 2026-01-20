@@ -29,7 +29,7 @@ export default function Register() {
 
     try {
       const res = await fetch(
-        'http://localhost:3000/api/users', // ❗ เปลี่ยนตาม backend ของคุณ
+        'http://localhost:3000/api/users',
         {
           method: 'POST',
           headers: {
