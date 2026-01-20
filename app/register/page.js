@@ -13,7 +13,7 @@ export default function Register() {
     lastname: '',
     username: '',
     password: '',
-    status: 'user',
+    status: 'user', // ⭐ บังคับเป็น user
   })
 
   const handleChange = (e) => {
@@ -29,12 +29,12 @@ export default function Register() {
 
     try {
       const res = await fetch(
-        'https://backend-nextjs-virid.vercel.app/api/users',
+        'http://localhost:3000/api/users', // ❗ เปลี่ยนตาม backend ของคุณ
         {
           method: 'POST',
           headers: {
-            Accept: 'application/json',
             'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify(formData),
         }
@@ -46,13 +46,13 @@ export default function Register() {
         Swal.fire({
           icon: 'success',
           title: 'สมัครสมาชิกสำเร็จ',
-          text: 'คุณสามารถเข้าสู่ระบบได้แล้ว',
-        }).then(() => router.push('/login'))
+          text: 'สามารถเข้าสู่ระบบได้แล้ว',
+        }).then(() => router.push('/signin'))
       } else {
         Swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
-          text: result.message || 'ไม่สามารถสมัครสมาชิกได้',
+          text: result.error || result.message || 'ไม่สามารถสมัครสมาชิกได้',
         })
       }
     } catch (error) {
@@ -130,18 +130,8 @@ export default function Register() {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label">Status</label>
-            <select
-              name="status"
-              className="form-select"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+          {/* ⭐ ซ่อน status แต่ส่งค่าไป backend */}
+          <input type="hidden" name="status" value="user" />
 
           <button type="submit" className="btn btn-primary w-100">
             สมัครสมาชิก

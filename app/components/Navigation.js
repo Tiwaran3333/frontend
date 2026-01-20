@@ -88,9 +88,9 @@ export default function Navigation() {
             {isLoggedIn && (
               <li className="nav-item">
                 <Link
-                  href="/sdmin/users"
+                  href="/admin/users"
                   className={`nav-link ${
-                    pathname === "/sdmin/users" ? "active" : ""
+                    pathname === "/admin/users" ? "active" : ""
                   }`}
                 >
                   edit user
