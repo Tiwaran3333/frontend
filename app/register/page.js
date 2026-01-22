@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'
 
 export default function Register() {
   const router = useRouter()
+  // ✅ เรียกใช้ตัวแปรจาก .env
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://backend-nextjs-virid.vercel.app';
 
   const [formData, setFormData] = useState({
     firstname: '',
@@ -13,7 +15,7 @@ export default function Register() {
     lastname: '',
     username: '',
     password: '',
-    status: 'user', // ⭐ บังคับเป็น user
+    status: 'user',
   })
 
   const handleChange = (e) => {
@@ -28,17 +30,15 @@ export default function Register() {
     e.preventDefault()
 
     try {
-      const res = await fetch(
-        'http://localhost:3000/api/users',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify(formData),
-        }
-      )
+      // ✅ แก้ตรงนี้: ใช้ API_BASE แทน localhost
+      const res = await fetch(`${API_BASE}/api/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
       const result = await res.json()
 
@@ -56,9 +56,11 @@ export default function Register() {
         })
       }
     } catch (error) {
+      console.error(error); // ดู error ใน console
       Swal.fire({
         icon: 'error',
         title: 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้',
+        text: 'กรุณาตรวจสอบ internet หรือ URL Backend'
       })
     }
   }
@@ -67,75 +69,29 @@ export default function Register() {
     <div className="container py-5">
       <div className="card shadow p-4 mx-auto" style={{ maxWidth: 500 }}>
         <h3 className="mb-4 text-center">สมัครสมาชิก</h3>
-
         <form onSubmit={handleSubmit}>
-
           <div className="mb-3">
             <label className="form-label">Firstname</label>
-            <input
-              type="text"
-              name="firstname"
-              className="form-control"
-              value={formData.firstname}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="firstname" className="form-control" value={formData.firstname} onChange={handleChange} required />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Fullname</label>
-            <input
-              type="text"
-              name="fullname"
-              className="form-control"
-              value={formData.fullname}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="fullname" className="form-control" value={formData.fullname} onChange={handleChange} required />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Lastname</label>
-            <input
-              type="text"
-              name="lastname"
-              className="form-control"
-              value={formData.lastname}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="lastname" className="form-control" value={formData.lastname} onChange={handleChange} required />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Username</label>
-            <input
-              type="text"
-              name="username"
-              className="form-control"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="username" className="form-control" value={formData.username} onChange={handleChange} required />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
           </div>
-
-          {/* ⭐ ซ่อน status แต่ส่งค่าไป backend */}
           <input type="hidden" name="status" value="user" />
-
-          <button type="submit" className="btn btn-primary w-100">
-            สมัครสมาชิก
-          </button>
+          <button type="submit" className="btn btn-primary w-100">สมัครสมาชิก</button>
         </form>
       </div>
     </div>

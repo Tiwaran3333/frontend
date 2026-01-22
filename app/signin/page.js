@@ -9,20 +9,34 @@ export default function Signin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  
+  // ✅ เรียกใช้ตัวแปรจาก .env (Default เป็น Backend บน Vercel)
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://backend-nextjs-virid.vercel.app';
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      console.log("กำลังเชื่อมต่อไบที่:", `${API_BASE}/api/login`); // เช็ค URL ใน Console
+
+      const res = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
+      // 🔴 ส่วนที่แก้: เช็คก่อนว่า Server ตอบ OK ไหม
+      if (!res.ok) {
+        // ถ้าไม่ OK ให้อ่านเป็น Text ธรรมดา (เผื่อ Server ส่ง HTML Error มา)
+        const errorText = await res.text();
+        console.error("Server Error Response:", errorText);
+        throw new Error(`Server Error (${res.status}): ${errorText}`);
+      }
+
+      // 🟢 ถ้า OK ค่อยแปลงเป็น JSON
       const data = await res.json();
 
-      if (res.ok && data.token) {
+      if (data.token) {
         localStorage.setItem('token', data.token);
 
         Swal.fire({
@@ -38,23 +52,22 @@ export default function Signin() {
           customClass: {
             popup: 'rounded-4 shadow-lg p-4',
           },
-        }).then(() => router.push('/')); // redirect ไปหน้า Home
+        }).then(() => router.push('/')); 
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed!',
-          text: data.message || 'Username หรือ Password ไม่ถูกต้อง',
-          background: '#222',
-          color: '#ffc107',
-          confirmButtonColor: '#ffc107',
-        });
+        // กรณี Token ไม่มา (แต่ HTTP 200)
+        throw new Error(data.message || 'Login failed');
       }
+
     } catch (error) {
-      console.error(error);
+      console.error("Login Error Detail:", error);
+      
       Swal.fire({
         icon: 'error',
-        title: 'Network Error',
-        text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้',
+        title: 'Login Failed',
+        // แสดงข้อความ Error จริงๆ ออกมาให้เห็น
+        text: error.message.includes('Server Error') 
+              ? 'เกิดข้อผิดพลาดที่ Server (กรุณาดู Console)' 
+              : error.message,
         background: '#222',
         color: '#ffc107',
         confirmButtonColor: '#ffc107',
