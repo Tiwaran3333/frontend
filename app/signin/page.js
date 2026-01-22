@@ -11,7 +11,8 @@ export default function Signin() {
   const router = useRouter();
   
   // ✅ เรียกใช้ตัวแปรจาก .env (Default เป็น Backend บน Vercel)
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://backend-nextjs-virid.vercel.app';
+  // แก้จาก https://backend... เป็น http://localhost:3000
+  const API_BASE = 'http://localhost:3000';
 
   const handleLogin = async (e) => {
     e.preventDefault();
