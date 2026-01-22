@@ -1,5 +1,5 @@
 'use client';
-//
+
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
@@ -8,8 +8,8 @@ export default function EditUserPage() {
   const { id } = useParams();
   const router = useRouter();
   
-  // ชี้ไปที่ Backend
-  const API_BASE = 'http://localhost:3000';
+  // ✅ แก้ตรงนี้: ให้รองรับทั้ง Localhost และ Vercel (ดึงค่าจาก .env.local)
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3000';
 
   const [form, setForm] = useState({
     firstname: '',
@@ -40,23 +40,23 @@ export default function EditUserPage() {
 
         const data = await res.json();
         
-        // เซ็ตข้อมูลลง State (รับมือค่า null จาก DB ด้วย || '')
+        // เซ็ตข้อมูลลง State
         setForm({
           firstname: data.firstname || '',
-          lastname: data.lastname || '', // ตรงกับ DB: lastname
+          lastname: data.lastname || '', 
           username: data.username || '',
-          password: '', // รหัสผ่านปล่อยว่างไว้
+          password: '', 
         });
         setLoading(false);
 
       } catch (err) {
         Swal.fire('Error', 'ไม่พบข้อมูล User', 'error');
-        router.push('/users'); // ดีดกลับหน้า List
+        router.push('/users'); 
       }
     };
 
     fetchUser();
-  }, [id, router]);
+  }, [id, router, API_BASE]); // ✅ เพิ่ม API_BASE ใน dependency เพื่อความชัวร์
 
   // ฟังก์ชันพิมพ์เปลี่ยนค่าในฟอร์ม
   const handleChange = (e) => {
@@ -68,12 +68,15 @@ export default function EditUserPage() {
     e.preventDefault();
     const token = localStorage.getItem('token');
 
-    // เตรียมข้อมูลส่ง (ถ้า Password ว่าง ไม่ต้องส่งไป)
+    // เตรียมข้อมูลส่ง
     const payload = {
         firstname: form.firstname,
         lastname: form.lastname,
-        username: form.username
+        username: form.username,
+        // ส่ง fullname เป็น null ไปด้วยเพื่อให้ Backend ไม่ error (ถ้า Backend รอรับค่านี้)
+        fullname: null 
     };
+
     if (form.password) {
         payload.password = form.password;
     }
@@ -90,9 +93,11 @@ export default function EditUserPage() {
 
       if (res.ok) {
         await Swal.fire('สำเร็จ', 'บันทึกข้อมูลเรียบร้อยแล้ว', 'success');
-        router.push('/users'); // ✅ กลับไปหน้า List (แก้ path ตามจริงของคุณ)
+        router.push('/users');
       } else {
-        Swal.fire('ล้มเหลว', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+        // อ่าน Error message จาก Backend
+        const errorData = await res.json();
+        Swal.fire('ล้มเหลว', errorData.message || 'ไม่สามารถบันทึกข้อมูลได้', 'error');
       }
 
     } catch (err) {
@@ -108,7 +113,7 @@ export default function EditUserPage() {
         <div className="col-md-8 col-lg-6">
           <div className="card shadow-lg bg-dark text-white border-secondary">
             <div className="card-header bg-primary text-white">
-              <h4 className="mb-0"> แก้ไขข้อมูลผู้ใช้งาน</h4>
+              <h4 className="mb-0">✏️ แก้ไขข้อมูลผู้ใช้งาน</h4>
             </div>
             <div className="card-body p-4">
               <form onSubmit={handleSubmit}>
@@ -149,7 +154,7 @@ export default function EditUserPage() {
 
                 <div className="mb-4">
                   <label className="form-label text-warning">
-                     รหัสผ่านใหม่ (กรอกเฉพาะถ้าต้องการเปลี่ยน)
+                    🔑 รหัสผ่านใหม่ (กรอกเฉพาะถ้าต้องการเปลี่ยน)
                   </label>
                   <input
                     className="form-control"
@@ -170,7 +175,7 @@ export default function EditUserPage() {
                         ยกเลิก
                     </button>
                     <button type="submit" className="btn btn-success px-4">
-                         บันทึกการเปลี่ยนแปลง
+                        💾 บันทึกการเปลี่ยนแปลง
                     </button>
                 </div>
 
